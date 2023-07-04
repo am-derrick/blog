@@ -3,13 +3,18 @@ body {
     color: #333333;
     margin-top: 5rem;
   }
+
+.navbar-brand {
+    font-family: 'Cherry Bomb One', cursive;
+    font-size: xx-large;
+}
   
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
   
   .bg-steel {
-    background-color: #5f788a;
+    background-color: #0f1849;
   }
   
   .site-header .navbar-nav .nav-link {
