@@ -1,5 +1,9 @@
+import os
 from flask import Flask, render_template, url_for
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = str(os.environ.get(
+    'SECRET_KEY'))  # ToDo try os.getenv()
 
 posts = [
     {
