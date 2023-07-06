@@ -1,7 +1,7 @@
 from blog.models import User, Post
 from flask import render_template, url_for, flash, redirect
 from blog.forms import SignUpForm, LogInForm
-from blog import app
+from blog import app, db, bcrypt
 
 
 posts = [
@@ -35,8 +35,17 @@ def about():
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
-        flash(f'Account {form.username.data} successfully created!', 'success')
-        return redirect(url_for('home'))
+        # hash password
+        hashed_pwd = bcrypt.generate_password_hash(
+            form.password.data).decode('utf-8')
+        # create user from form inputs
+        new_user = User(username=form.username.data,
+                        email=form.email.data, password=hashed_pwd)
+        # add and commit to database
+        db.session.add(new_user)
+        db.session.commit()
+        flash(f'Account successfully created!', 'success')
+        return redirect(url_for('login'))
     return render_template('signup.html', title='Sign Up', form=form)
 
 
