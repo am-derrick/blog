@@ -1,6 +1,6 @@
 from blog.models import User, Post
 from flask import render_template, url_for, flash, request, redirect
-from blog.forms import SignUpForm, LogInForm
+from blog.forms import SignUpForm, LogInForm, AccountUpdateForm
 from blog import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -78,4 +78,5 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
-    return render_template('account.html', title='Account')
+    img_file = url_for('static', filename='images/' + current_user.img_file)
+    return render_template('account.html', title='Account', img_file=img_file)
