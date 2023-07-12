@@ -75,9 +75,20 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/account')
+@app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     form = AccountUpdateForm()
+    if form.validate_on_submit():
+        # update account details
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Account succesfully updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        # pre-poulate form with existing data
+        form.username.data = current_user.username
+        form.email.data = current_user.email
     img_file = url_for('static', filename='images/' + current_user.img_file)
     return render_template('account.html', title='Account', img_file=img_file, form=form)
